@@ -13,7 +13,7 @@ class ItemModel {
     _totalPages = parsedJson['total_pages'];
 
     List<_Result> temp = [];
-    for (int i = 0; i < parsedJson['result'].length; i++) {
+    for (int i = 0; i < parsedJson['results'].length; i++) {
       _Result result = _Result(parsedJson['results'][i]);
       temp.add(result);
     }
@@ -36,7 +36,7 @@ class _Result {
   String _posterPath;
   String _originalLanguage;
   String _originalTitle;
-  List<int> _genreIds;
+  List<int> _genreIds = [];
   String _backdropPath;
   bool _adult;
   String _overview;
