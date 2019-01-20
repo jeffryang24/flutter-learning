@@ -2,18 +2,39 @@ import 'package:flutter/material.dart';
 
 import '../models/item_model.dart';
 import '../blocs/movies_bloc.dart';
+import '../blocs/movie_detail_bloc_provider.dart';
 
-class MovieList extends StatelessWidget {
+import 'movie_detail.dart';
+
+class MovieList extends StatefulWidget {
   final String title;
 
-  MovieList({Key key, this.title}) : super(key: key);
+  MovieList({Key key, @required this.title}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() {
+    return _MovieListState();
+  }
+}
+
+class _MovieListState extends State<MovieList> {
+  @override
+  void initState() {
+    super.initState();
+    bloc.fetchAllMovies();
+  }
+
+  @override
+  void dispose() {
+    bloc.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    bloc.fetchAllMovies();
     return Scaffold(
       appBar: AppBar(
-        title: Text(this.title),
+        title: Text(widget.title),
       ),
       body: StreamBuilder(
         stream: bloc.allMovies,
@@ -39,11 +60,38 @@ class MovieList extends StatelessWidget {
         crossAxisCount: 2,
       ),
       itemBuilder: (BuildContext context, int index) {
-        return Image.network(
-          'https://image.tmdb.org/t/p/w185${snapshot.data.results[index].posterPath}',
-          fit: BoxFit.cover,
+        return GridTile(
+          child: InkResponse(
+            enableFeedback: true,
+            child: Image.network(
+              'https://image.tmdb.org/t/p/w185${snapshot.data.results[index].posterPath}',
+              fit: BoxFit.cover,
+            ),
+            onTap: () => this.openDetailPage(snapshot.data, index),
+          ),
         );
       },
+    );
+  }
+
+  void openDetailPage(ItemModel data, int index) {
+    Navigator.push(
+      context, 
+      MaterialPageRoute(
+        builder: (BuildContext context) {
+          var _item = data.results[index];
+          return MovieDetailBlocProvider(
+            child: MovieDetail(
+              title: _item.title,
+              posterUrl: _item.backdropPath,
+              description: _item.overview,
+              releaseDate: _item.releaseDate,
+              voteAverage: _item.voteAverage,
+              movieId: _item.id,
+            ),
+          );
+        }
+      )
     );
   }
 }
