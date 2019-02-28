@@ -13,13 +13,13 @@ class DogList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _buildList();
+    return _buildList(context);
   }
 
-  ListView _buildList() {
+  ListView _buildList(BuildContext context) {
     return ListView.builder(
       itemCount: doggos.length,
-      itemBuilder: (BuildContext context, int index) {
+      itemBuilder: (context, int index) {
         return DogCard(
           dog: doggos[index],
         );

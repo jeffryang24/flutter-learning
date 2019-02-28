@@ -6,6 +6,9 @@ import '../../utils/dog_image_util.dart';
 // model
 import '../../model/dog_model.dart';
 
+// for testing only
+import '../screens/detail_screen.dart';
+
 class DogCard extends StatefulWidget {
   final Dog dog;
 
@@ -34,20 +37,29 @@ class _DogCardState extends State<DogCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 115.0,
-      child: Stack(
-        children: <Widget>[
-          Positioned(
-            left: 50.0,
-            child: dogCard,
+    return InkWell(
+      onTap: showDetailScreen,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 16.0,
+          vertical: 8.0,
+        ),
+        child: Container(
+          height: 115.0,
+          child: Stack(
+            children: <Widget>[
+              Positioned(
+                left: 50.0,
+                child: dogCard,
+              ),
+              Positioned(
+                top: 7.5,
+                child: dogImage,
+              ),
+            ],
           ),
-          Positioned(
-            top: 7.5,
-            child: dogImage,
-          ),
-        ],
-      ),
+        ),
+      )
     );
   }
 
@@ -59,7 +71,7 @@ class _DogCardState extends State<DogCard> {
           shape: BoxShape.circle,
           image: DecorationImage(
             fit: BoxFit.cover,
-            image: NetworkImage(renderUrl ?? ''),
+            image: NetworkImage(renderUrl ?? 'https://itefix.net/sites/default/files/not_available.png'),
           )),
     );
   }
@@ -98,6 +110,16 @@ class _DogCardState extends State<DogCard> {
           ),
         ),
       ),
+    );
+  }
+
+  showDetailScreen() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) {
+          return DetailScreen(widget.dog);
+        }
+      )
     );
   }
 }

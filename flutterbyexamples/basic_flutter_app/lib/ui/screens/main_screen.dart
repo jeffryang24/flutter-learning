@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 // model
 import '../../model/dog_model.dart';
 
+// shared
+import '../shared/gradient.dart';
+
 // widget
 import '../widgets/dog_card.dart';
 import '../widgets/dog_list.dart';
@@ -42,17 +45,7 @@ class _MainScreenState extends State<MainScreen> {
         ),
         body: Container(
           decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              stops: [0.1, 0.5, 0.7, 0.9],
-              colors: [
-                Colors.indigo[800],
-                Colors.indigo[700],
-                Colors.indigo[600],
-                Colors.indigo[400],
-              ]
-            )
+            gradient: CustomGradient.dogLinearGradient,
           ),
           child: DogList(initialDogs),
         ));
