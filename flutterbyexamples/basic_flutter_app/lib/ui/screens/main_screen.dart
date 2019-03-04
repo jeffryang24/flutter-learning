@@ -7,8 +7,10 @@ import '../../model/dog_model.dart';
 import '../shared/gradient.dart';
 
 // widget
-import '../widgets/dog_card.dart';
 import '../widgets/dog_list.dart';
+
+// screen
+import '../screens/add_new_dog_screen.dart';
 
 class MainScreen extends StatefulWidget {
   MainScreen({Key key, this.title}) : super(key: key);
@@ -42,6 +44,12 @@ class _MainScreenState extends State<MainScreen> {
           // the App.build method, and use it to set our appbar title.
           title: Text(widget.title),
           backgroundColor: Colors.black87,
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.add),
+              onPressed: _showAddNewDogForm,
+            )
+          ],
         ),
         body: Container(
           decoration: BoxDecoration(
@@ -49,5 +57,16 @@ class _MainScreenState extends State<MainScreen> {
           ),
           child: DogList(initialDogs),
         ));
+  }
+
+  Future _showAddNewDogForm() async {
+    Dog newDog =
+        await Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+      return AddNewDogScreen();
+    }));
+
+    if (newDog != null) {
+      initialDogs.add(newDog);
+    }
   }
 }

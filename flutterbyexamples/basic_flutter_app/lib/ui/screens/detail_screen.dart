@@ -17,6 +17,7 @@ class DetailScreen extends StatefulWidget {
 
 class _DetailScreenState extends State<DetailScreen> {
   final double dogAvatarSize = 150.0;
+  double _sliderValue = 10.0;
 
   @override
   Widget build(BuildContext context) {
@@ -114,4 +115,48 @@ class _DetailScreenState extends State<DetailScreen> {
       ),
     );
   }
+
+  Widget get addYourRating {
+    return Column(
+      children: <Widget>[
+        Container(
+          padding: EdgeInsets.symmetric(
+            vertical: 16.0,
+            horizontal: 16.0,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Flexible(
+                flex: 1,
+                child: Slider(
+                  activeColor: Colors.indigoAccent,
+                  min: 0.0,
+                  max: 15.0,
+                  onChanged: (value) {
+                    setState(() => _sliderValue = value);
+                  },
+                  value: _sliderValue,
+                ),
+              ),
+              Container(
+                width: 50.0,
+                alignment: Alignment.center,
+                child: Text(
+                  '${_sliderValue.toInt()}',
+                  style: Theme.of(context).textTheme.display1,
+                ),
+              )
+            ],
+          ),
+        )
+      ],
+    );
+  }
+
+  // Widget get submitRatingButton {
+  //   return RaisedButton(
+
+  //   );
+  // }
 }
