@@ -34,7 +34,6 @@ class _AddNewDogScreenState extends State<AddNewDogScreen> {
                 child: TextField(
                   decoration: InputDecoration(labelText: 'Pup\'s Name'),
                   controller: nameController,
-                  onChanged: (value) => nameController.text = value,
                 ),
               ),
               Padding(
@@ -42,7 +41,6 @@ class _AddNewDogScreenState extends State<AddNewDogScreen> {
                 child: TextField(
                   decoration: InputDecoration(labelText: 'Pup\'s Location'),
                   controller: locationController,
-                  onChanged: (value) => locationController.text = value,
                 ),
               ),
               Padding(
@@ -50,7 +48,6 @@ class _AddNewDogScreenState extends State<AddNewDogScreen> {
                 child: TextField(
                   decoration: InputDecoration(labelText: 'Pup\'s Description'),
                   controller: descriptionController,
-                  onChanged: (value) => descriptionController.text = value,
                 ),
               ),
               Padding(
