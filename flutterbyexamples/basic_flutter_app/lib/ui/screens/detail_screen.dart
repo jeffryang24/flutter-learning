@@ -22,13 +22,14 @@ class _DetailScreenState extends State<DetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black87,
-      appBar: AppBar(
         backgroundColor: Colors.black87,
-        title: Text('Meet ${widget.dog.name}!'),
-      ),
-      body: dogProfile,
-    );
+        appBar: AppBar(
+          backgroundColor: Colors.black87,
+          title: Text('Meet ${widget.dog.name}!'),
+        ),
+        body: ListView(
+          children: <Widget>[dogProfile, addYourRating],
+        ));
   }
 
   Widget get dogImage {
@@ -36,32 +37,29 @@ class _DetailScreenState extends State<DetailScreen> {
       width: dogAvatarSize,
       height: dogAvatarSize,
       decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        boxShadow: [
-          const BoxShadow(
-            offset: Offset(1.0, 2.0),
-            blurRadius: 2.0,
-            spreadRadius: -1.0,
-            color: const Color(0x33000000)
-          ),
-          const BoxShadow(
-            offset: const Offset(2.0, 1.0),
-            blurRadius: 3.0,
-            spreadRadius: 0.0,
-            color: const Color(0x24000000)
-          ),
-          const BoxShadow(
-            offset: const Offset(3.0, 1.0),
-            blurRadius: 4.0,
-            spreadRadius: 2.0,
-            color: const Color(0x1F000000),
-          ),
-        ],
-        image: DecorationImage(
-          fit: BoxFit.cover,
-          image: NetworkImage(widget.dog.imageUrl),
-        )
-      ),
+          shape: BoxShape.circle,
+          boxShadow: [
+            const BoxShadow(
+                offset: Offset(1.0, 2.0),
+                blurRadius: 2.0,
+                spreadRadius: -1.0,
+                color: const Color(0x33000000)),
+            const BoxShadow(
+                offset: const Offset(2.0, 1.0),
+                blurRadius: 3.0,
+                spreadRadius: 0.0,
+                color: const Color(0x24000000)),
+            const BoxShadow(
+              offset: const Offset(3.0, 1.0),
+              blurRadius: 4.0,
+              spreadRadius: 2.0,
+              color: const Color(0x1F000000),
+            ),
+          ],
+          image: DecorationImage(
+            fit: BoxFit.cover,
+            image: NetworkImage(widget.dog.imageUrl),
+          )),
     );
   }
 
@@ -132,7 +130,7 @@ class _DetailScreenState extends State<DetailScreen> {
                 child: Slider(
                   activeColor: Colors.indigoAccent,
                   min: 0.0,
-                  max: 15.0,
+                  max: 10.0,
                   onChanged: (value) {
                     setState(() => _sliderValue = value);
                   },
@@ -149,14 +147,21 @@ class _DetailScreenState extends State<DetailScreen> {
               )
             ],
           ),
-        )
+        ),
+        submitRatingButton
       ],
     );
   }
 
-  // Widget get submitRatingButton {
-  //   return RaisedButton(
+  Widget get submitRatingButton {
+    return RaisedButton(
+      onPressed: updateRating,
+      child: Text('Submit'),
+      color: Colors.indigoAccent,
+    );
+  }
 
-  //   );
-  // }
+  updateRating() {
+    setState(() => widget.dog.rating = _sliderValue.toInt());
+  }
 }
