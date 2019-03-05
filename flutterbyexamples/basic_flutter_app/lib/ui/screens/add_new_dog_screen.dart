@@ -70,7 +70,12 @@ class _AddNewDogScreenState extends State<AddNewDogScreen> {
 
   void _submitPup(BuildContext context) {
     if (nameController.text.isEmpty) {
-      print('Dog needs name!');
+      Scaffold.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.redAccent,
+          content: Text('Pup needs name!'),
+        )
+      );
     } else {
       Dog newDog = Dog(nameController.text, locationController.text,
           descriptionController.text);

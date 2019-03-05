@@ -38,41 +38,73 @@ class _DogCardState extends State<DogCard> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: showDetailScreen,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 16.0,
-          vertical: 8.0,
-        ),
-        child: Container(
-          height: 115.0,
-          child: Stack(
-            children: <Widget>[
-              Positioned(
-                left: 50.0,
-                child: dogCard,
-              ),
-              Positioned(
-                top: 7.5,
-                child: dogImage,
-              ),
-            ],
+        onTap: showDetailScreen,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 16.0,
+            vertical: 8.0,
           ),
-        ),
-      )
-    );
+          child: Container(
+            height: 115.0,
+            child: Stack(
+              children: <Widget>[
+                Positioned(
+                  left: 50.0,
+                  child: dogCard,
+                ),
+                Positioned(
+                  top: 7.5,
+                  child: dogImage,
+                ),
+              ],
+            ),
+          ),
+        ));
   }
 
   Widget get dogImage {
-    return Container(
+    Widget dogAvatar = Hero(
+      tag: widget.dog,
+      child: Container(
+        width: 100.0,
+        height: 100.0,
+        decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            image: DecorationImage(
+              fit: BoxFit.cover,
+              image: NetworkImage(renderUrl ??
+                  'https://itefix.net/sites/default/files/not_available.png'),
+            )),
+      ),
+    );
+
+    Widget placeholder = Container(
       width: 100.0,
       height: 100.0,
       decoration: BoxDecoration(
           shape: BoxShape.circle,
-          image: DecorationImage(
-            fit: BoxFit.cover,
-            image: NetworkImage(renderUrl ?? 'https://itefix.net/sites/default/files/not_available.png'),
-          )),
+          gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Colors.black54,
+                Colors.black,
+                Colors.blueGrey[600],
+              ])),
+      alignment: Alignment.center,
+      child: Text(
+        'Dog',
+        textAlign: TextAlign.center,
+      ),
+    );
+
+    return AnimatedCrossFade(
+      firstChild: placeholder,
+      secondChild: dogAvatar,
+      crossFadeState: renderUrl == null
+          ? CrossFadeState.showFirst
+          : CrossFadeState.showSecond,
+      duration: Duration(milliseconds: 1000),
     );
   }
 
@@ -114,12 +146,8 @@ class _DogCardState extends State<DogCard> {
   }
 
   showDetailScreen() {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) {
-          return DetailScreen(widget.dog);
-        }
-      )
-    );
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+      return DetailScreen(widget.dog);
+    }));
   }
 }
